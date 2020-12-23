@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.information.staff.mapper.AttendanceMapper">
+    <select id="pageListQuery" parameterType="com.information.staff.entity.vo.AttendanceQueryVo" resultType="com.information.staff.entity.Attendance">
+        select a.id,a.name,a.time,a.status,a.audit,d.name as department_id,c.name as clerk_id
+        from attendance as a,department as d,clerk as c
+        where a.clerk_id = c.id and d.id = a.department_id and a.is_deleted = 0
+        <if test="attendanceQueryVo.name != null">
+            and a.name like '%${attendanceQueryVo.name}%'
+        </if>
+        <if test="attendanceQueryVo.status != null">
+            and a.status = #{attendanceQueryVo.status}
+        </if>
+        <if test="attendanceQueryVo.clerkName != null">
+            and c.name like '%${attendanceQueryVo.clerkName}%'
+        </if>
+        <if test="attendanceQueryVo.departmentName != null">
+            and d.name like '%${attendanceQueryVo.departmentName}%'
+        </if>
+        <if test="attendanceQueryVo.audit != null">
+            and a.audit = #{attendanceQueryVo.audit}
+        </if>
+    </select>
+</mapper>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.information.staff.mapper.ClerkMapper">
+    <select id="pageListQuery" parameterType="com.information.staff.entity.vo.ClerkQueryVo" resultType="com.information.staff.entity.Clerk">
+        select c.id,c.name,c.sex,c.phone_number,c.photo,c.id_card,c.address,c.position,c.gmt_create,d.name as department_id
+        from clerk as c,department as d where c.department_id = d.id
+        <if test="clerkQueryVo.name != null">
+            and c.name like '%${clerkQueryVo.name}%'
+        </if>
+        <if test="clerkQueryVo.isDeleted != null">
+            and c.is_deleted = #{clerkQueryVo.isDeleted}
+        </if>
+        <if test="clerkQueryVo.position != null">
+            and c.position like '%${clerkQueryVo.position}%'
+        </if>
+        <if test="clerkQueryVo.departmentName != null">
+            and d.name like '%${clerkQueryVo.departmentName}%'
+        </if>
+    </select>
+</mapper>

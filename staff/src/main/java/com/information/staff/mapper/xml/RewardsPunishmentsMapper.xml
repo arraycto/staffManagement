@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.information.staff.mapper.RewardsPunishmentsMapper">
+    <select id="pageListQuery" parameterType="com.information.staff.entity.vo.RPQueryVo" resultType="com.information.staff.entity.RewardsPunishments">
+        select r.id,r.time,r.amount,r.reason,r.type,c.name as clerk_id,d.name as department_id
+        from clerk as c,department as d,rewards_punishments as r
+        where r.clerk_id = c.id and d.id = r.department_id and r.is_deleted = 0
+        <if test="rPQueryVo.type != null">
+            and r.type = #{rPQueryVo.name}
+        </if>
+        <if test="rPQueryVo.reason != null">
+            and r.reason like '%${rPQueryVo.reason}%'
+        </if>
+        <if test="rPQueryVo.amount != null">
+            and r.amount = #{rPQueryVo.amount}
+        </if>
+        <if test="rPQueryVo.clerkName != null">
+            and c.name like '%${rPQueryVo.clerkName}%'
+        </if>
+        <if test="rPQueryVo.departmentName != null">
+            and d.name like '%${rPQueryVo.departmentName}%'
+        </if>
+    </select>
+</mapper>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.information.staff.mapper.ContractMapper">
+    <select id="pageListQuery" parameterType="com.information.staff.entity.vo.ContractQueryVo" resultType="com.information.staff.entity.Contract">
+        select co.id,co.name,co.time,co.timeout,co.url,cl.name as clerk_id
+        from contract as co,clerk as cl where co.is_deleted = 0 and co.clerk_id = cl.id
+        <if test="contractQueryVo.name != null">
+            and co.name like '%${contractQueryVo.name}%'
+        </if>
+        <if test="contractQueryVo.name != null">
+            and cl.name like '%${contractQueryVo.clerkName}%'
+        </if>
+        <if test="contractQueryVo.timeout != null">
+            and co.timeout &lt;= #{contractQueryVo.timeout}
+        </if>
+        <if test="contractQueryVo.time != null">
+            and co.time &gt;= #{contractQueryVo.time}
+        </if>
+
+    </select>
+</mapper>
