@@ -52,7 +52,9 @@ public class ClerkThroughController {
         for (ClerkThrough clerkThrough:throughList) {
             String departmentId = clerkThrough.getDepartmentId();
             Department department = departmentService.getById(departmentId);
-            clerkThrough.setDepartmentId(department.getName());
+            if (!StringUtils.isEmpty(department)){
+                clerkThrough.setDepartmentId(department.getName());
+            }
         }
         return R.ok().data("throughList",throughList);
     }

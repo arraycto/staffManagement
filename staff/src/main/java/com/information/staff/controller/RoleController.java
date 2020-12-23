@@ -12,6 +12,7 @@ import com.information.staff.service.RoleService;
 import com.information.staff.service.UserService;
 import com.information.staff.utils.R;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -94,7 +95,9 @@ public class RoleController {
             Clerk clerk = clerkService.getOne(clerkQueryWrapper);
             String departmentId = clerk.getDepartmentId();
             Department department = departmentService.getById(departmentId);
-            clerk.setDepartmentId(department.getName());
+            if(!StringUtils.isEmpty(department)){
+                clerk.setDepartmentId(department.getName());
+            }
             clerkList.add(clerk);
         }
         return R.ok().data("clerkList",clerkList);
